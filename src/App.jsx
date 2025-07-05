@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
@@ -22,7 +22,45 @@ export function useDecentralized() {
   return useContext(DecentralizedContext)
 }
 
+// Error Boundary Component
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('Error caught by boundary:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-white mb-4">Something went wrong</h1>
+            <p className="text-gray-400 mb-4">The app encountered an error. Please refresh the page.</p>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+            >
+              Refresh Page
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 function AppContent() {
+  console.log('App version: 1.0.1 - Loading...');
   const [decentralizedServices, setDecentralizedServices] = useState(null)
   const [isInitialized, setIsInitialized] = useState(false)
   const [walletConnected, setWalletConnected] = useState(false)
@@ -172,9 +210,11 @@ function AppContent() {
 
 function App() {
   return (
-    <NotificationProvider>
-      <AppContent />
-    </NotificationProvider>
+    <ErrorBoundary>
+      <NotificationProvider>
+        <AppContent />
+      </NotificationProvider>
+    </ErrorBoundary>
   )
 }
 
