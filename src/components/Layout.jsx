@@ -284,7 +284,7 @@ export default function Layout({ children }) {
 
   return (
     <TokenContext.Provider value={{ SUPPORTED_TOKENS, tokenBalances, loadingTokens, refreshBalances }}>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="min-h-screen bg-gray-900">
         {/* Mobile sidebar */}
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
@@ -368,8 +368,8 @@ export default function Layout({ children }) {
 
         {/* Main content */}
         <div className="lg:pl-80">
-          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 sm:gap-x-6 sm:px-6 lg:hidden">
-            <button type="button" className="-m-2.5 p-2.5 text-gray-700 lg:hidden" onClick={() => setSidebarOpen(true)}>
+          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-700 bg-gray-900 px-4 sm:gap-x-6 sm:px-6 lg:hidden">
+            <button type="button" className="-m-2.5 p-2.5 text-gray-300 lg:hidden" onClick={() => setSidebarOpen(true)}>
               <Bars3Icon className="h-6 w-6" />
             </button>
             <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
@@ -385,7 +385,7 @@ export default function Layout({ children }) {
             </div>
           </div>
 
-          <main className="py-8">
+          <main className="py-8 bg-gray-900 min-h-screen">
             <div className="px-4 sm:px-6 lg:px-8">
               {children}
             </div>

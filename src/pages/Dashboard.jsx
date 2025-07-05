@@ -49,12 +49,6 @@ export default function Dashboard() {
       case 'overview':
         return (
           <div className="space-y-6">
-            {/* Test Message */}
-            <div className="bg-green-500/20 border border-green-500/50 rounded-xl p-4 text-center">
-              <p className="text-green-400 font-bold">✅ Dashboard is working!</p>
-              <p className="text-green-300 text-sm">If you can see this, the routing is working correctly.</p>
-            </div>
-
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
