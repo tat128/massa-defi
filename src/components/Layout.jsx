@@ -20,7 +20,6 @@ import {
 } from '@heroicons/react/24/outline'
 import React from 'react'
 import { Dialog as HeadlessDialog } from '@headlessui/react'
-import { useDecentralized } from '../App'
 
 const navigation = [
   { name: 'Home', href: '/', icon: HomeIcon },
@@ -745,14 +744,13 @@ export default function Layout({ children }) {
 
             {/* Connect Wallet button at bottom */}
             <div className="mt-8 flex flex-col items-center">
-              {typeof window !== 'undefined' && !useDecentralized().walletConnected && (
-                <button
-                  onClick={connectWallet}
-                  className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold shadow hover:from-blue-700 hover:to-purple-700 transition-all duration-200"
-                >
-                  Connect Wallet
-                </button>
-              )}
+              <button
+                onClick={connectWallet}
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+              >
+                <WalletIcon className="w-5 h-5" />
+                Connect Wallet
+              </button>
             </div>
           </div>
         </div>
