@@ -210,8 +210,11 @@ const Home = () => {
             <button
               className="px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold text-lg shadow-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200"
               onClick={() => {
+                console.log('Get Started button clicked!');
                 localStorage.setItem('massa-hide-home', '1');
+                console.log('Navigating to /dashboard...');
                 navigate('/dashboard');
+                console.log('Navigation completed');
               }}
             >
               Get Started
