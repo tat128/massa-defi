@@ -32,7 +32,7 @@ A modern, feature-rich DeFi application built with React, featuring autonomous s
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/massa-defi.git
+   git clone https://github.com/tat128/massa-defi.git
    cd massa-defi
    ```
 

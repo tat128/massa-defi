@@ -110,116 +110,175 @@ const TOKEN_PRICES = {
 };
 
 export default function Dashboard() {
-  const { decentralizedServices } = useDecentralized();
-  const [activeTab, setActiveTab] = useState('overview');
-  const [portfolioData, setPortfolioData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  try {
+    const { decentralizedServices } = useDecentralized();
+    const [activeTab, setActiveTab] = useState('overview');
+    const [portfolioData, setPortfolioData] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-  const tabs = [
-    { id: 'overview', name: 'Overview', icon: ChartBarIcon },
-    { id: 'dca', name: 'DCA Tool', icon: ClockIcon },
-    { id: 'yield', name: 'Yield Router', icon: ArrowTrendingUpIcon },
-    { id: 'trading', name: 'Limit Orders', icon: BoltIcon }
-  ];
+    const tabs = [
+      { id: 'overview', name: 'Overview', icon: ChartBarIcon },
+      { id: 'dca', name: 'DCA Tool', icon: ClockIcon },
+      { id: 'yield', name: 'Yield Router', icon: ArrowTrendingUpIcon },
+      { id: 'trading', name: 'Limit Orders', icon: BoltIcon }
+    ];
 
-  useEffect(() => {
-    loadPortfolioData();
-  }, []);
+    useEffect(() => {
+      loadPortfolioData();
+    }, []);
 
-  const loadPortfolioData = async () => {
-    try {
-      setIsLoading(true);
-      
-      if (decentralizedServices?.portfolio) {
-        // Mock portfolio data - would come from smart contract
-        setPortfolioData({
-          totalValue: 25000,
-          change24h: 5.2,
-          change7d: 12.8,
-          change30d: -2.1,
-          assets: [
-            { symbol: 'ETH', amount: 5.2, value: 10400, change: 8.5 },
-            { symbol: 'USDC', amount: 8000, value: 8000, change: 0 },
-            { symbol: 'LINK', amount: 200, value: 3000, change: 15.2 },
-            { symbol: 'UNI', amount: 150, value: 1200, value: 1200, change: -3.1 },
-            { symbol: 'AAVE', amount: 20, value: 2400, change: 22.8 }
-          ],
-          recentTransactions: [
-            { type: 'buy', symbol: 'ETH', amount: 0.5, price: 2000, timestamp: Date.now() - 3600000 },
-            { type: 'sell', symbol: 'LINK', amount: 50, price: 15, timestamp: Date.now() - 7200000 },
-            { type: 'swap', from: 'USDC', to: 'UNI', amount: 500, timestamp: Date.now() - 10800000 }
-          ]
-        });
+    const loadPortfolioData = async () => {
+      try {
+        setIsLoading(true);
+        
+        if (decentralizedServices?.portfolio) {
+          // Mock portfolio data - would come from smart contract
+          setPortfolioData({
+            totalValue: 25000,
+            change24h: 5.2,
+            change7d: 12.8,
+            change30d: -2.1,
+            assets: [
+              { symbol: 'ETH', amount: 5.2, value: 10400, change: 8.5 },
+              { symbol: 'USDC', amount: 8000, value: 8000, change: 0 },
+              { symbol: 'LINK', amount: 200, value: 3000, change: 15.2 },
+              { symbol: 'UNI', amount: 150, value: 1200, change: -3.1 },
+              { symbol: 'AAVE', amount: 20, value: 2400, change: 22.8 }
+            ],
+            recentTransactions: [
+              { type: 'buy', symbol: 'ETH', amount: 0.5, price: 2000, timestamp: Date.now() - 3600000 },
+              { type: 'sell', symbol: 'LINK', amount: 50, price: 15, timestamp: Date.now() - 7200000 },
+              { type: 'swap', from: 'USDC', to: 'UNI', amount: 500, timestamp: Date.now() - 10800000 }
+            ]
+          });
+        }
+      } catch (error) {
+        console.error('Failed to load portfolio data:', error);
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error('Failed to load portfolio data:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    };
 
-  const getTabContent = () => {
-    switch (activeTab) {
-      case 'overview':
-        return <PortfolioOverview data={portfolioData} />;
-      case 'dca':
-        return <DCATool />;
-      case 'yield':
-        return <YieldRouter />;
-      case 'trading':
-        return <LimitOrderbook />;
-      default:
-        return <PortfolioOverview data={portfolioData} />;
-    }
-  };
+    const getTabContent = () => {
+      try {
+        switch (activeTab) {
+          case 'overview':
+            return <PortfolioOverview data={portfolioData} />;
+          case 'dca':
+            return <DCATool />;
+          case 'yield':
+            return <YieldRouter />;
+          case 'trading':
+            return <LimitOrderbook />;
+          default:
+            return <PortfolioOverview data={portfolioData} />;
+        }
+      } catch (error) {
+        console.error('Error rendering tab content:', error);
+        return (
+          <div className="text-center py-12">
+            <div className="text-red-400 text-lg mb-4">Something went wrong loading this tab</div>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+            >
+              Reload Page
+            </button>
+          </div>
+        );
+      }
+    };
 
-  if (isLoading) {
+    if (error) {
+      return (
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="text-red-400 text-xl mb-4">Error loading dashboard</div>
+            <div className="text-gray-400 mb-4">{error}</div>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+            >
+              Reload Page
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    if (isLoading) {
+      return (
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-white mb-2">DeFi Dashboard</h1>
+          <p className="text-xl text-gray-400">
+            Advanced DeFi primitives with autonomous smart contracts
+          </p>
+        </div>
+
+        {/* Navigation Tabs */}
+        <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-2 border border-white/10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center justify-center gap-2 px-4 py-3 rounded-2xl font-medium transition-all duration-200 ${
+                    activeTab === tab.id
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                      : 'text-gray-300 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  <Icon className="w-5 h-5" />
+                  <span className="hidden sm:inline">{tab.name}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Tab Content */}
+        <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-6 border border-white/10">
+          <Suspense fallback={
+            <div className="flex items-center justify-center py-12">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+            </div>
+          }>
+            {getTabContent()}
+          </Suspense>
+        </div>
+      </div>
+    );
+  } catch (error) {
+    console.error('Dashboard error:', error);
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+        <div className="text-center">
+          <div className="text-red-400 text-xl mb-4">Dashboard failed to load</div>
+          <div className="text-gray-400 mb-4">{error.message}</div>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+          >
+            Reload Page
+          </button>
+        </div>
       </div>
     );
   }
-
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-white mb-2">DeFi Dashboard</h1>
-        <p className="text-xl text-gray-400">
-          Advanced DeFi primitives with autonomous smart contracts
-        </p>
-      </div>
-
-      {/* Navigation Tabs */}
-      <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-2 border border-white/10">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-semibold transition-all duration-300 ${
-                  activeTab === tab.id
-                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                    : 'text-gray-400 hover:text-white hover:bg-white/10'
-                }`}
-              >
-                <Icon className="w-5 h-5" />
-                {tab.name}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Tab Content */}
-      <div className="min-h-[600px]">
-        {getTabContent()}
-      </div>
-    </div>
-  );
 }
 
 // Portfolio Overview Component
