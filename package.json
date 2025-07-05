@@ -1,0 +1,58 @@
+{
+  "name": "massa-defi-decentralized",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Fully decentralized DeFi application with no middlemen",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.7.13",
+    "@heroicons/react": "^2.0.17",
+    "@tailwindcss/forms": "^0.5.10",
+    "ethers": "^5.7.2",
+    "file-saver": "^2.0.5",
+    "qrcode.react": "^4.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.1",
+    "recharts": "^3.0.2",
+    "web3": "^1.9.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react": "^3.1.0",
+    "autoprefixer": "^10.4.14",
+    "eslint": "^8.38.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.3.4",
+    "postcss": "^8.4.24",
+    "tailwindcss": "^3.3.2",
+    "vite": "^4.3.2"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/massa-defi-decentralized.git"
+  },
+  "keywords": [
+    "defi",
+    "decentralized",
+    "blockchain",
+    "ethereum",
+    "autonomous",
+    "no-middlemen"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "homepage": "https://massadefi.eth.link"
+}
