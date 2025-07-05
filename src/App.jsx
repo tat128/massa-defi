@@ -10,6 +10,7 @@ import Profile from './pages/Profile'
 import Security from './pages/Security'
 import Education from './pages/Education'
 import GasOptimizer from './pages/GasOptimizer'
+import NotFound from './pages/NotFound'
 import { NotificationProvider, useNotification } from './components/Layout'
 import { initializeDecentralizedServices } from './utils/decentralizedData'
 
@@ -201,6 +202,7 @@ function AppContent() {
             <Route path="/security" element={<Security />} />
             <Route path="/education" element={<Education />} />
             <Route path="/gas-optimizer" element={<GasOptimizer />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
       </Router>
