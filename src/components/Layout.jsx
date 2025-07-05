@@ -580,14 +580,13 @@ export default function Layout({ children }) {
     }
   };
 
-  const [hideHome, setHideHome] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return !!localStorage.getItem('massa-hide-home');
-    }
-    return false;
-  });
+  const [hideHome, setHideHome] = useState(false);
 
   useEffect(() => {
+    // Check localStorage after component mounts (client-side only)
+    const hideHomeValue = !!localStorage.getItem('massa-hide-home');
+    setHideHome(hideHomeValue);
+    
     const handler = () => setHideHome(!!localStorage.getItem('massa-hide-home'));
     window.addEventListener('storage', handler);
     return () => window.removeEventListener('storage', handler);
